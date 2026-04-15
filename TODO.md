@@ -1,14 +1,25 @@
-# TODO: Web Bán Hàng với Chatbot
+# Ecommerce Website with Chatbot - Development Plan
 
-## Kế hoạch đã approve, breakdown thành steps:
+## Project Overview
+Full e-commerce site with product catalog, cart, checkout, and AI-like chatbot for customer support. Pure HTML/CSS/JS for instant browser preview.
 
-1. ✅ Tạo TODO.md để track progress.
-2. ✅ Tạo data/products.json với 8 sản phẩm mẫu.
-3. ✅ Tạo css/style.css với thiết kế responsive.
-4. ✅ Tạo js/script.js với logic cart và chatbot.
-5. ✅ Tạo index.html tích hợp tất cả.
-6. ✅ Test và complete.
+# Steps to Complete (9/9 done)
+1. ✅ Create project structure and TODO.md
+2. ✅ Create index.html (product catalog, cart, chatbot UI)
+3. ✅ Create style.css (responsive design)
+4. ✅ Create script.js (product data, cart logic)
+5. ✅ Add chatbot.js (chat logic and responses)
+6. ✅ Create products.js (product data and images)
+7. ✅ Add checkout.html and checkout.js (fake payment)
+8. ✅ Update TODO.md with progress
+9. ✅ Test and complete (run in browser)
 
-**Tất cả files đã tạo thành công! Website sẵn sàng chạy.**
+## Tech Stack
+- HTML5
+- CSS3 (Flexbox/Grid, responsive)
+- Vanilla JavaScript
+- LocalStorage for cart persistence
+- Rule-based chatbot (no external APIs)
 
-
+## Next Step
+Implement index.html

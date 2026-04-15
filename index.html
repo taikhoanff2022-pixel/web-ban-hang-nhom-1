@@ -1,63 +1,98 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop Điện Tử - Sản Phẩm Chính Hãng</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa hàng Online - Sản phẩm chất lượng</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <nav>
-      <div class="logo">🛒 ShopVN</div>
-      <div>
-        <button id="cartToggle" class="cart-btn">🛍️ Giỏ hàng (<span id="cartCount">0</span>)</button>
-        <button id="chatToggle" class="chat-toggle">💬 Chat hỗ trợ</button>
-      </div>
-    </nav>
-  </header>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h2><i class="fas fa-store"></i> ShopVN</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Trang chủ</a></li>
+                    <li><a href="#products">Sản phẩm</a></li>
+                    <li><a href="#cart" id="cart-link"><i class="fas fa-shopping-cart"></i> Giỏ hàng (<span id="cart-count">0</span>)</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-  <main>
-    <section class="hero">
-      <h1>Chào mừng đến Shop Điện Tử!</h1>
-      <p>Sản phẩm chính hãng, giá tốt nhất thị trường. Chat ngay để được tư vấn!</p>
-    </section>
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Chào mừng đến với ShopVN</h1>
+                <p>Sản phẩm chất lượng cao, giá cả hợp lý. Chat ngay để được tư vấn!</p>
+                <button class="cta-btn" onclick="openChatbot()">Chat với tư vấn viên</button>
+            </div>
+        </section>
 
-    <section>
-      <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem; color: #333;">Sản phẩm nổi bật</h2>
-      <div id="productsGrid" class="products-grid"></div>
-    </section>
-  </main>
+        <section id="products" class="products">
+            <div class="container">
+                <h2>Danh sách sản phẩm</h2>
+                <div id="product-grid" class="product-grid">
+                    <!-- Products will be loaded by JS -->
+                </div>
+            </div>
+        </section>
 
-  <footer>
-    <p>&copy; 2024 ShopVN. Tất cả quyền được bảo lưu. Hotline: 1900-xxxx</p>
-  </footer>
+        <section id="cart" class="cart hidden">
+            <div class="container">
+                <h2>Giỏ hàng của bạn</h2>
+                <div id="cart-items"></div>
+                <div class="cart-total">
+                    <h3>Tổng cộng: <span id="cart-total">0</span> VNĐ</h3>
+                    <button id="checkout-btn" class="checkout-btn" onclick="goToCheckout()">Thanh toán</button>
+                </div>
+                <button onclick="closeCart()" class="close-cart-btn">Đóng giỏ hàng</button>
+            </div>
+        </section>
+    </main>
 
-  <!-- Cart Modal -->
-  <div id="cartModal" class="modal">
-    <div class="modal-content">
-      <span class="close close-cart">&times;</span>
-      <h2>Giỏ hàng của bạn</h2>
-      <div id="cartItems"></div>
-      <div class="cart-total" id="cartTotal">0 VNĐ</div>
-      <button id="checkoutBtn" class="checkout-btn">Thanh toán</button>
+    <!-- Chatbot -->
+    <div id="chatbot" class="chatbot hidden">
+        <div class="chatbot-header">
+            <span>Tư vấn viên AI</span>
+            <button onclick="closeChatbot()" class="close-chat">&times;</button>
+        </div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Nhập tin nhắn của bạn..." onkeypress="sendMessage(event)">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
     </div>
-  </div>
 
-  <!-- Chatbot -->
-  <div id="chatbotContainer" class="chatbot-container">
-    <div class="chatbot-header">
-      <span>💬 Chat hỗ trợ - ShopVN</span>
-      <span class="close close-chat">&times;</span>
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCheckout()">&times;</span>
+            <h2>Thanh toán</h2>
+            <div id="checkout-items"></div>
+            <div class="checkout-total">
+                <h3>Tổng tiền: <span id="checkout-total">0</span> VNĐ</h3>
+            </div>
+            <form id="checkout-form">
+                <input type="text" placeholder="Họ tên" required>
+                <input type="tel" placeholder="Số điện thoại" required>
+                <input type="email" placeholder="Email" required>
+                <input type="text" placeholder="Địa chỉ giao hàng" required>
+                <button type="submit">Xác nhận đơn hàng</button>
+            </form>
+        </div>
     </div>
-    <div id="chatMessages" class="chatbot-messages"></div>
-    <div class="chatbot-input">
-      <input type="text" id="chatInput" class="chat-input" placeholder="Nhập tin nhắn...">
-      <button id="sendBtn" class="send-btn">▶</button>
-    </div>
-  </div>
 
-  <script src="js/script.js"></script>
+    <script src="products.js"></script>
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
 </body>
 </html>
-
