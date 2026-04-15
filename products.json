@@ -1,59 +1,114 @@
 [
   {
     "id": 1,
-    "name": "iPhone 15 Pro Max",
-    "price": 25000000,
-    "description": "iPhone 15 Pro Max 256GB, camera 48MP, chip A17 Pro.",
+    "name": "iPhone 15 Pro Max 256GB",
+    "price": 25900000,
+    "description": "Titanium design, camera 48MP 3x zoom, chip A17 Pro, Dynamic Island.",
     "image": "https://images.unsplash.com/photo-1691117384466-60791f62d6cb?w=400&h=400&fit=crop"
   },
   {
     "id": 2,
-    "name": "Samsung Galaxy S24 Ultra",
-    "price": 22000000,
-    "description": "S24 Ultra 512GB, bút S Pen, camera 200MP.",
+    "name": "Samsung Galaxy S24 Ultra 512GB", 
+    "price": 23900000,
+    "description": "S Pen tích hợp, camera 200MP, AI Galaxy, pin 5000mAh.",
     "image": "https://images.unsplash.com/photo-1701726917569-79328d1ccaea?w=400&h=400&fit=crop"
   },
   {
     "id": 3,
-    "name": "MacBook Pro M3",
-    "price": 45000000,
-    "description": "MacBook Pro 14' M3 Pro 18GB RAM, 512GB SSD.",
+    "name": "MacBook Pro 14 M3 Pro",
+    "price": 48900000,
+    "description": "18GB RAM, 512GB SSD, màn Liquid Retina XDR 120Hz, Space Black.",
     "image": "https://images.unsplash.com/photo-1589527141777-1eaca3e55d25?w=400&h=400&fit=crop"
   },
   {
     "id": 4,
-    "name": "Dell XPS 13",
-    "price": 32000000,
-    "description": "XPS 13 Intel Core Ultra, màn 13.4' OLED.",
+    "name": "Dell XPS 13 OLED",
+    "price": 34900000,
+    "description": "Intel Core Ultra 7, màn 13.4' OLED 3K, 32GB RAM, 1TB SSD.",
     "image": "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop"
   },
   {
     "id": 5,
-    "name": "AirPods Pro 2",
-    "price": 6500000,
-    "description": "AirPods Pro thế hệ 2, chống ồn chủ động.",
+    "name": "AirPods Pro 2 USB-C", 
+    "price": 6890000,
+    "description": "Chống ồn chủ động 2x, Spatial Audio, Adaptive Transparency.",
     "image": "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400&h=400&fit=crop"
   },
   {
     "id": 6,
     "name": "Sony WH-1000XM5",
-    "price": 8500000,
-    "description": "Tai nghe không dây Sony XM5, ANC tốt nhất.",
+    "price": 8990000,
+    "description": "ANC tốt nhất 2024, 30h pin, LDAC Hi-Res, multipoint.",
     "image": "https://images.unsplash.com/photo-1613420499488-37ccec4a3d9d?w=400&h=400&fit=crop"
   },
   {
     "id": 7,
-    "name": "iPad Pro M4",
-    "price": 28000000,
-    "description": "iPad Pro 11' M4 256GB, màn OLED.",
+    "name": "iPad Pro 11 M4 256GB",
+    "price": 29900000,
+    "description": "M4 chip, màn OLED 120Hz 1600nits, Apple Pencil Pro.",
     "image": "https://images.unsplash.com/photo-1728026858021-39113356bde5?w=400&h=400&fit=crop"
   },
   {
     "id": 8,
-    "name": "Samsung Galaxy Watch 7",
-    "price": 8500000,
-    "description": "Đồng hồ thông minh Galaxy Watch 7 44mm.",
+    "name": "Galaxy Watch 7 44mm",
+    "price": 8990000,
+    "description": "AI Health tracking, pin 40h, Wear OS 5, sapphire crystal.",
     "image": "https://images.unsplash.com/photo-1579586140626-59891b9be5e8?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 9,
+    "name": "Google Pixel 8 Pro 256GB",
+    "price": 21900000,
+    "description": "Tensor G3 AI, camera 50MP Magic Editor, 7 năm Android update.",
+    "image": "https://images.unsplash.com/photo-1700133673161-325015c31760?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 10,
+    "name": "Surface Laptop 7 13.8\"",
+    "price": 39900000,
+    "description": "Snapdragon X Elite, 16GB RAM, màn PixelSense Touch, Copilot+ PC.",
+    "image": "https://images.unsplash.com/photo-1639762682174-5169c189e0d4?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 11,
+    "name": "Apple Vision Pro 256GB",
+    "price": 124900000,
+    "description": "AR/VR headset spatial computing, micro-OLED 4K, eye tracking.",
+    "image": "https://images.unsplash.com/photo-1702796165426-eb302917ffe1?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 12,
+    "name": "Bose QC Ultra Earbuds",
+    "price": 6990000,
+    "description": "True wireless, Immersive Audio, CustomTune, IPX4.",
+    "image": "https://images.unsplash.com/photo-1673356049620-42b61aaad5e1?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 13,
+    "name": "PS5 Slim Digital 1TB",
+    "price": 14990000,
+    "description": "PlayStation 5 Slim, ray tracing, 4K 120fps, DualSense haptic.",
+    "image": "https://images.unsplash.com/photo-1632286228785-78ee9fc17952?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 14,
+    "name": "Nintendo Switch OLED",
+    "price": 10900000,
+    "description": "Màn 7' OLED, pin 9h, Joy-Con 2, dock 4K.",
+    "image": "https://images.unsplash.com/photo-1638373386662-b8020b4ceda5?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 15,
+    "name": "Logitech MX Master 3S",
+    "price": 2890000,
+    "description": "Chuột không dây MagSpeed, multi-device, 70 ngày pin.",
+    "image": "https://images.unsplash.com/photo-1587829741303-ef7c96f87e3f?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 16,
+    "name": "Apple Watch Ultra 2",
+    "price": 23900000,
+    "description": "49mm titanium, pin 36h, dive computer, double tap.",
+    "image": "https://images.unsplash.com/photo-1682695797686-5e22f57010a5?w=400&h=400&fit=crop"
   }
 ]
-

@@ -3,96 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa hàng Online - Sản phẩm chất lượng</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>ShopVN - Sản Phẩm Công Nghệ Cao Cấp | Chat Trực Tiếp 24/7</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="https://img.icons8.com/fluency/48/store.png">
 </head>
 <body>
+    <!-- Dark Mode Toggle -->
+    <button id="theme-toggle" title="Chế độ tối"><i class="fas fa-moon"></i></button>
+
     <header>
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="logo">
-                    <h2><i class="fas fa-store"></i> ShopVN</h2>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="#home">Trang chủ</a></li>
-                    <li><a href="#products">Sản phẩm</a></li>
-                    <li><a href="#cart" id="cart-link"><i class="fas fa-shopping-cart"></i> Giỏ hàng (<span id="cart-count">0</span>)</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-store-alt"></i>
+                Shop<span style="color: #ffd700;">VN</span>
             </div>
+            <ul>
+                <li><a href="#home">Trang Chủ</a></li>
+                <li><a href="#products">Sản Phẩm</a></li>
+                <li><a href="#cart" id="cart-link">
+                    <i class="fas fa-shopping-cart"></i> 
+                    Giỏ Hàng (<span id="cart-count">0</span>)
+                </a></li>
+                <li><button id="chat-toggle">
+                    <i class="fas fa-comments"></i> Chat 24/7
+                </button></li>
+            </ul>
         </nav>
     </header>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>Chào mừng đến với ShopVN</h1>
-                <p>Sản phẩm chất lượng cao, giá cả hợp lý. Chat ngay để được tư vấn!</p>
-                <button class="cta-btn" onclick="openChatbot()">Chat với tư vấn viên</button>
-            </div>
-        </section>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>ShopVN Pro</h1>
+        <p>Công nghệ cao cấp • Giá tốt nhất • Chat hỗ trợ 24/7</p>
+        <a href="#products" class="cta-button">
+            <i class="fas fa-rocket"></i> Khám Phá Sản Phẩm
+        </a>
+    </section>
 
-        <section id="products" class="products">
-            <div class="container">
-                <h2>Danh sách sản phẩm</h2>
-                <div id="product-grid" class="product-grid">
-                    <!-- Products will be loaded by JS -->
-                </div>
-            </div>
-        </section>
-
-        <section id="cart" class="cart hidden">
-            <div class="container">
-                <h2>Giỏ hàng của bạn</h2>
-                <div id="cart-items"></div>
-                <div class="cart-total">
-                    <h3>Tổng cộng: <span id="cart-total">0</span> VNĐ</h3>
-                    <button id="checkout-btn" class="checkout-btn" onclick="goToCheckout()">Thanh toán</button>
-                </div>
-                <button onclick="closeCart()" class="close-cart-btn">Đóng giỏ hàng</button>
-            </div>
-        </section>
-    </main>
-
-    <!-- Chatbot -->
-    <div id="chatbot" class="chatbot hidden">
-        <div class="chatbot-header">
-            <span>Tư vấn viên AI</span>
-            <button onclick="closeChatbot()" class="close-chat">&times;</button>
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <h2>Sản Phẩm Nổi Bật <i class="fas fa-star"></i></h2>
+        <div id="product-grid" class="product-grid">
+            <!-- Dynamic products -->
         </div>
-        <div id="chat-messages" class="chat-messages"></div>
-        <div class="chat-input">
-            <input type="text" id="chat-input" placeholder="Nhập tin nhắn của bạn..." onkeypress="sendMessage(event)">
-            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+    </section>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-cart">&times;</span>
+            <h2><i class="fas fa-shopping-cart"></i> Giỏ Hàng Của Bạn</h2>
+            <div id="cart-items" class="cart-items"></div>
+            <div class="cart-total">
+                <strong>Tổng tiền: <span id="cart-total">0 VNĐ</span></strong>
+            </div>
+            <button id="checkout-btn" class="cta-button">
+                <i class="fas fa-credit-card"></i> Thanh Toán Ngay
+            </button>
+            <button id="clear-cart">
+                <i class="fas fa-trash"></i> Xóa Tất Cả
+            </button>
         </div>
     </div>
 
     <!-- Checkout Modal -->
-    <div id="checkout-modal" class="modal hidden">
+    <div id="checkout-modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeCheckout()">&times;</span>
-            <h2>Thanh toán</h2>
-            <div id="checkout-items"></div>
-            <div class="checkout-total">
-                <h3>Tổng tiền: <span id="checkout-total">0</span> VNĐ</h3>
-            </div>
+            <span class="close" id="close-checkout">&times;</span>
+            <h2><i class="fas fa-receipt"></i> Xác Nhận Đơn Hàng</h2>
             <form id="checkout-form">
-                <input type="text" placeholder="Họ tên" required>
-                <input type="tel" placeholder="Số điện thoại" required>
-                <input type="email" placeholder="Email" required>
-                <input type="text" placeholder="Địa chỉ giao hàng" required>
-                <button type="submit">Xác nhận đơn hàng</button>
+                <input type="text" placeholder="👤 Họ và tên đầy đủ" required>
+                <input type="tel" placeholder="📱 Số điện thoại" required>
+                <input type="email" placeholder="✉️ Email (không bắt buộc)">
+                <textarea placeholder="📍 Địa chỉ giao hàng chi tiết" rows="3" required></textarea>
+                <button type="submit" class="cta-button">
+                    <i class="fas fa-check-circle"></i> Đặt Hàng COD
+                </button>
             </form>
         </div>
     </div>
 
-    <script src="products.js"></script>
-    <script src="script.js"></script>
-    <script src="chatbot.js"></script>
+    <!-- Professional Chat Modal -->
+    <div id="chat-modal" class="chat-modal">
+        <div class="chat-content">
+            <span class="close" id="close-chat">&times;</span>
+            <div class="chat-header">
+                <span class="chat-status"></span>
+                <span id="chat-status-text">Chatbot ShopVN</span>
+            </div>
+            <div id="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Gõ tin nhắn... (hoặc 'chat trực tiếp')">
+                <button id="chat-send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i class="fas fa-store-alt"></i>
+                <h3>ShopVN Pro</h3>
+                <p>Công nghệ cao cấp • Dịch vụ chuyên nghiệp</p>
+            </div>
+            <div class="footer-links">
+                <h4>Liên hệ</h4>
+                <p><i class="fas fa-phone"></i> 1800-123-456</p>
+                <p><i class="fas fa-envelope"></i> support@shopvn.vn</p>
+            </div>
+            <div class="social-links">
+                <h4>Theo dõi</h4>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 ShopVN Pro. All Rights Reserved | COD Toàn Quốc
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/chatbot-complete.js"></script>
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        
+        themeToggle.addEventListener('click', () => {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.querySelector('i').className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+        
+        themeToggle.querySelector('i').className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    </script>
 </body>
 </html>
+
