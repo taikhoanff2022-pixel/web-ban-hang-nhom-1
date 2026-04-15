@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "name": "iPhone 15 Pro Max",
+    "price": 25000000,
+    "description": "iPhone 15 Pro Max 256GB, camera 48MP, chip A17 Pro.",
+    "image": "https://images.unsplash.com/photo-1691117384466-60791f62d6cb?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 2,
+    "name": "Samsung Galaxy S24 Ultra",
+    "price": 22000000,
+    "description": "S24 Ultra 512GB, bút S Pen, camera 200MP.",
+    "image": "https://images.unsplash.com/photo-1701726917569-79328d1ccaea?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 3,
+    "name": "MacBook Pro M3",
+    "price": 45000000,
+    "description": "MacBook Pro 14' M3 Pro 18GB RAM, 512GB SSD.",
+    "image": "https://images.unsplash.com/photo-1589527141777-1eaca3e55d25?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 4,
+    "name": "Dell XPS 13",
+    "price": 32000000,
+    "description": "XPS 13 Intel Core Ultra, màn 13.4' OLED.",
+    "image": "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 5,
+    "name": "AirPods Pro 2",
+    "price": 6500000,
+    "description": "AirPods Pro thế hệ 2, chống ồn chủ động.",
+    "image": "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 6,
+    "name": "Sony WH-1000XM5",
+    "price": 8500000,
+    "description": "Tai nghe không dây Sony XM5, ANC tốt nhất.",
+    "image": "https://images.unsplash.com/photo-1613420499488-37ccec4a3d9d?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 7,
+    "name": "iPad Pro M4",
+    "price": 28000000,
+    "description": "iPad Pro 11' M4 256GB, màn OLED.",
+    "image": "https://images.unsplash.com/photo-1728026858021-39113356bde5?w=400&h=400&fit=crop"
+  },
+  {
+    "id": 8,
+    "name": "Samsung Galaxy Watch 7",
+    "price": 8500000,
+    "description": "Đồng hồ thông minh Galaxy Watch 7 44mm.",
+    "image": "https://images.unsplash.com/photo-1579586140626-59891b9be5e8?w=400&h=400&fit=crop"
+  }
+]
+
