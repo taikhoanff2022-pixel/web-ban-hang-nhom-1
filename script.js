@@ -1,185 +1,125 @@
-// Cart functionality
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+// Dữ liệu sản phẩm
+const products = [
+    {
+        id: 1,
+        name: 'iPhone 15 Pro',
+        price: 25000000,
+        image: 'https://images.unsplash.com/photo-1695906324772-87d665292638?w=400&amp;auto=format&amp;fit=crop',
+        description: 'iPhone mới nhất với camera 48MP.'
+    },
+    {
+        id: 2,
+        name: 'Samsung Galaxy S24',
+        price: 22000000,
+        image: 'https://images.unsplash.com/photo-1701847787216-86e8589233dd?w=400&amp;auto=format&amp;fit=crop',
+        description: 'Flagship Android với AI mạnh mẽ.'
+    },
+    {
+        id: 3,
+        name: 'MacBook Air M3',
+        price: 35000000,
+        image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&amp;auto=format&amp;fit=crop',
+        description: 'Laptop siêu mỏng nhẹ hiệu năng cao.'
+    },
+    {
+        id: 4,
+        name: 'Tai nghe Sony WH-1000XM5',
+        price: 8500000,
+        image: 'https://images.unsplash.com/photo-1578632354571-58de91a956ec?w=400&amp;auto=format&amp;fit=crop&amp;fit=crop',
+        description: 'Tai nghe chống ồn tốt nhất hiện nay.'
+    },
+    {
+        id: 5,
+        name: 'Đồng hồ Apple Watch Ultra',
+        price: 18000000,
+        image: 'https://images.unsplash.com/photo-1664879236664-d952eea56127?w=400&amp;auto=format&amp;fit=crop',
+        description: 'Đồng hồ thông minh cao cấp.'
+    },
+    {
+        id: 6,
+        name: 'Chuột Logitech MX Master 3S',
+        price: 2500000,
+        image: 'https://images.unsplash.com/photo-1610945262588-bde731706aa6?w=400&amp;auto=format&amp;fit=crop',
+        description: 'Chuột không dây ergonomics.'
+    }
+];
 
-// Load products on page load
-document.addEventListener('DOMContentLoaded', function() {
-    loadProducts();
-    updateCart();
-    setupEventListeners();
-});
-
-// Load products to grid
-function loadProducts() {
-    const productGrid = document.getElementById('product-grid');
-    productGrid.innerHTML = '';
-    
-    products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
-        productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-image">
+// Hiển thị sản phẩm
+function displayProducts() {
+    const productList = document.getElementById('product-list');
+    productList.innerHTML = products.map(product => `
+        <div class="product-card">
+            <img src="${product.image}" alt="${product.name}">
             <div class="product-info">
                 <h3>${product.name}</h3>
                 <p>${product.description}</p>
-                <div class="product-price">${formatPrice(product.price)}</div>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">
-                    <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                </button>
+                <div class="product-price">${product.price.toLocaleString('vi-VN')} VNĐ</div>
+                <button class="add-to-cart" onclick="addToCart(${product.id})">Thêm vào giỏ</button>
             </div>
-        `;
-        productGrid.appendChild(productCard);
-    });
+        </div>
+    `).join('');
 }
 
-// Add to cart
+// Giỏ hàng đơn giản
+let cart = [];
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
-    const cartItem = cart.find(item => item.id === productId);
-    
-    if (cartItem) {
-        cartItem.quantity += 1;
-    } else {
-        cart.push({ ...product, quantity: 1 });
-    }
-    
-    updateCart();
-    showNotification('Đã thêm vào giỏ hàng!');
+    cart.push(product);
+    alert(`Đã thêm ${product.name} vào giỏ hàng! Tổng cộng: ${cart.length} sản phẩm.`);
 }
 
-// Update cart display
-function updateCart() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cart-count').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    document.getElementById('cart-total').textContent = formatPrice(total);
-    document.getElementById('checkout-total').textContent = formatPrice(total);
-}
+// Chatbot logic
+const chatbotResponses = {
+    'xin chào': 'Chào bạn! 👋 Bạn cần hỗ trợ gì về sản phẩm hôm nay?',
+    'sản phẩm': 'Chúng tôi có iPhone, Samsung, MacBook, tai nghe Sony và nhiều sản phẩm khác. Bạn muốn xem loại nào?',
+    'giá': 'Giá sản phẩm dao động từ 2.5tr - 35tr VNĐ. Bạn có thể xem chi tiết từng sản phẩm bên trái!',
+    'giỏ hàng': 'Bạn có thể thêm sản phẩm vào giỏ bằng nút "Thêm vào giỏ". Hiện tại giỏ của bạn có ' + cart.length + ' sản phẩm.',
+    'mua hàng': 'Chọn sản phẩm > Nhấn "Thêm vào giỏ" > Liên hệ để thanh toán nhé! 💳',
+    'cảm ơn': 'Không có gì! Chúc bạn mua sắm vui vẻ! 🛒✨',
+    'tạm biệt': 'Tạm biệt! Hẹn gặp lại bạn! 👋',
+    'default': 'Xin lỗi, mình chưa hiểu. Bạn có thể hỏi về sản phẩm, giá cả, giỏ hàng hoặc chào hỏi nhé!'
+};
 
-// Show cart
-document.getElementById('cart-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    showCart();
-});
-
-function showCart() {
-    const cartSection = document.getElementById('cart');
-    const cartItems = document.getElementById('cart-items');
-    
-    if (cart.length === 0) {
-        cartItems.innerHTML = '<p style="text-align: center; color: #666;">Giỏ hàng trống</p>';
-    } else {
-        cartItems.innerHTML = cart.map(item => `
-            <div class="product-card">
-                <img src="${item.image}" alt="${item.name}" class="product-image">
-                <div style="flex: 1;">
-                    <h4>${item.name}</h4>
-                    <p>${formatPrice(item.price)} x <span id="qty-${item.id}">${item.quantity}</span></p>
-                </div>
-                <div>
-                    <button onclick="updateQuantity(${item.id}, -1)" style="background: #f39c12; color: white; border: none; padding: 5px 10px; margin-right: 5px; border-radius: 3px;">-</button>
-                    <button onclick="updateQuantity(${item.id}, 1)" style="background: #27ae60; color: white; border: none; padding: 5px 10px; border-radius: 3px;">+</button>
-                    <br><br>
-                    <button onclick="removeFromCart(${item.id})" style="background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px;">Xóa</button>
-                </div>
-            </div>
-        `).join('');
-    }
-    
-    cartSection.classList.remove('hidden');
-}
-
-function closeCart() {
-    document.getElementById('cart').classList.add('hidden');
-}
-
-function updateQuantity(productId, change) {
-    const item = cart.find(item => item.id === productId);
-    if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            updateCart();
-            showCart();
+function getBotResponse(message) {
+    const lowerMsg = message.toLowerCase();
+    for (const [key, response] of Object.entries(chatbotResponses)) {
+        if (lowerMsg.includes(key)) {
+            return response;
         }
     }
+    return chatbotResponses['default'];
 }
 
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
-    updateCart();
-    showCart();
+function addMessage(message, isUser) {
+    const messages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    messageDiv.textContent = message;
+    messages.appendChild(messageDiv);
+    messages.scrollTop = messages.scrollHeight;
 }
 
-function goToCheckout() {
-    if (cart.length === 0) {
-        alert('Giỏ hàng trống!');
-        return;
-    }
-    
-    window.location.href = 'checkout.html';
-}
+function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const message = input.value.trim();
+    if (!message) return;
 
-function closeCheckout() {
-    document.getElementById('checkout-modal').classList.add('hidden');
-}
+    addMessage(message, true);
+    input.value = '';
 
-// Checkout form
-document.getElementById('checkout-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Simulate payment processing
+    // Simulate typing delay
     setTimeout(() => {
-        alert('Cảm ơn bạn! Đơn hàng đã được xác nhận. Chúng tôi sẽ liên hệ sớm.');
-        cart = [];
-        updateCart();
-        closeCheckout();
-        closeCart();
-    }, 1500);
+        const botResponse = getBotResponse(message);
+        addMessage(botResponse, false);
+    }, 1000);
+}
+
+// Event listeners
+document.getElementById('send-btn').addEventListener('click', sendMessage);
+document.getElementById('chat-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
 });
 
-// Notification
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed; top: 100px; right: 20px; background: #27ae60; 
-        color: white; padding: 15px 20px; border-radius: 8px; 
-        z-index: 5000; transform: translateX(400px); transition: all 0.3s;
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 3000);
-}
-
-// Mobile menu
-function setupEventListeners() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-}
-
-// Smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+// Khởi tạo
+displayProducts();
+addMessage('Xin chào! Mình là chatbot hỗ trợ mua sắm. Bạn cần giúp gì ạ? 😊', false);
