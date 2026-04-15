@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        #chat-container { width: 400px; height: 500px; border: 1px solid #ccc; border-radius: 10px; display: flex; flex-direction: column; }
+        #messages { flex: 1; padding: 10px; overflow-y: scroll; border-bottom: 1px solid #ccc; background: #f5f5f5; }
+        .message { margin-bottom: 10px; padding: 8px; border-radius: 10px; max-width: 80%; }
+        .user { background: #007bff; color: white; margin-left: auto; }
+        .bot { background: #e9ecef; }
+        #input-container { display: flex; padding: 10px; gap: 10px; }
+        #chat-input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; }
+        #send-btn { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Chatbot - Gõ tin nhắn test ngay!</h1>
+    <p>Click "Mở Chat" → Gõ "chào" Enter → Bot reply ngay!</p>
+    
+    <button onclick="toggleChat()">Mở Chat</button>
+    <button onclick="clearLocal()">Xóa localStorage test</button>
+    
+    <div id="chat-container" style="display:none;">
+        <div id="messages"></div>
+        <div id="input-container">
+            <input type="text" id="chat-input" placeholder="Gõ 'chào', 'iphone'... Enter gửi" autofocus>
+            <button id="send-btn" onclick="sendMessage()">Gửi</button>
+        </div>
+    </div>
+
+    <script>
+        const messages = document.getElementById('messages');
+        const input = document.getElementById('chat-input');
+        
+        const replies = {
+            'chào': '👋 Chào! Test OK!',
+            'iphone': '📱 iPhone 25.9tr!',
+            'giá': '💰 Giá HOT trên web!',
+            'giỏ': '🛒 Giỏ test!',
+            default: '🤖 Reply: ' + input.value
+        };
+        
+        function addMessage(text, isUser = false) {
+            const div = document.createElement('div');
+            div.className = 'message ' + (isUser ? 'user' : 'bot');
+            div.textContent = text;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function sendMessage() {
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addMessage(text, true);
+            input.value = '';
+            
+            setTimeout(() => {
+                const key = Object.keys(replies).find(k => text.toLowerCase().includes(k)) || 'default';
+                addMessage(replies[key]);
+            }, 500);
+        }
+        
+        input.onkeypress = (e) => e.key === 'Enter' && sendMessage();
+        
+        function toggleChat() {
+            const container = document.getElementById('chat-container');
+            container.style.display = container.style.display === 'none' ? 'flex' : 'none';
+            input.focus();
+        }
+        
+        function clearLocal() {
+            localStorage.clear();
+            alert('localStorage cleared!');
+        }
+        
+        console.log('Test chatbot ready!');
+        addMessage('Chat test ready! Gõ tin nhắn...');
+    </script>
+</body>
+</html>

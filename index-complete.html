@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopVN - Sản Phẩm Công Nghệ + Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        header { background: rgba(255,255,255,0.1); padding: 1rem; position: fixed; width: 100%; backdrop-filter: blur(10px); }
+        nav { display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
+        .logo { font-size: 1.5rem; font-weight: bold; }
+        .nav-links { display: flex; gap: 1rem; }
+        .nav-links a { color: white; text-decoration: none; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 80px; }
+        .products { max-width: 1200px; margin: 4rem auto; padding: 0 1rem; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .product-card { background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; backdrop-filter: blur(10px); }
+        .product-price { font-size: 1.5rem; font-weight: bold; color: #4ade80; }
+        .add-cart { background: #10b981; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 8px; cursor: pointer; }
+        #cart-count { background: #ef4444; color: white; border-radius: 50%; padding: 0.2rem 0.5rem; }
+        
+        /* Chat */
+        #chat-toggle { background: #8b5cf6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; }
+        .chat-modal { display: none; position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex-direction: column; }
+        .chat-header { background: #8b5cf6; color: white; padding: 1rem; border-radius: 12px 12px 0 0; }
+        #chat-messages { flex: 1; padding: 1rem; overflow-y: auto; background: #f8fafc; }
+        .message { margin-bottom: 1rem; padding: 0.8rem; border-radius: 18px; max-width: 80%; }
+        .user-message { background: #3b82f6; color: white; margin-left: auto; }
+        .bot-message { background: #e2e8f0; color: #1e293b; }
+        .chat-input-container { display: flex; padding: 1rem; gap: 0.5rem; }
+        #chat-input { flex: 1; padding: 0.8rem; border: 1px solid #d1d5db; border-radius: 20px; outline: none; }
+        #chat-send { background: #10b981; color: white; border: none; padding: 0.8rem 1rem; border-radius: 20px; cursor: pointer; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
+        .modal-content { background: white; margin: 10% auto; padding: 2rem; border-radius: 12px; max-width: 500px; max-height: 80vh; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">🛍️ ShopVN</div>
+            <div class="nav-links">
+                <a href="#products">Sản phẩm</a>
+                <a href="#" id="cart-link">🛒 Giỏ (<span id="cart-count">0</span>)</a>
+                <button id="chat-toggle">💬 Chat hỗ trợ</button>
+            </div>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <h1>ShopVN Pro</h1>
+        <p>Công nghệ cao cấp • Chat hỗ trợ 24/7</p>
+        <a href="#products" style="background: #10b981; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 30px; font-weight: bold;">Xem sản phẩm</a>
+    </section>
+    
+    <section id="products" class="products">
+        <h2>Sản phẩm HOT</h2>
+        <div id="product-grid" class="product-grid">
+            <!-- Products load here -->
+        </div>
+    </section>
+    
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <h2>🛒 Giỏ hàng</h2>
+            <div id="cart-items"></div>
+            <div style="font-size: 1.2rem; font-weight: bold; margin: 1rem 0;">Tổng: <span id="cart-total">0₫</span></div>
+            <button onclick="checkout()" style="background: #3b82f6; color: white; padding: 1rem; border: none; border-radius: 8px; width: 100%; font-weight: bold;">Thanh toán COD</button>
+        </div>
+    </div>
+    
+    <!-- Chat Modal -->
+    <div id="chat-modal" class="chat-modal">
+        <div class="chat-header">
+            <div>Chatbot ShopVN <span style="background: #10b981; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.8rem;">Online</span></div>
+            <button onclick="closeChat()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div class="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Gõ tin nhắn..." onkeypress="if(event.key==='Enter') sendChat()">
+            <button id="chat-send" onclick="sendChat()">Gửi</button>
+        </div>
+    </div>
+
+    <script>
+        // Simple Products
+        const products = [
+            {id:1, name:'iPhone 15 Pro Max', price:25900000, img:'https://via.placeholder.com/300x200/667eea/ffffff?text=iPhone'},
+            {id:2, name:'MacBook Pro M3', price:48900000, img:'https://via.placeholder.com/300x200/764ba2/ffffff?text=MacBook'},
+            {id:3, name:'AirPods Pro 2', price:6890000, img:'https://via.placeholder.com/300x200/f093fb/ffffff?text=AirPods'},
+            {id:4, name:'PS5 Slim', price:14990000, img:'https://via.placeholder.com/300x200/f5576c/ffffff?text=PS5'},
+            {id:5, name:'Samsung S24 Ultra', price:23900000, img:'https://via.placeholder.com/300x200/10b981/ffffff?text=Samsung'}
+        ];
+        
+        let cart = [];
+        
+        // Render products
+        document.getElementById('product-grid').innerHTML = products.map(p => `
+            <div class="product-card">
+                <img src="${p.img}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <div class="product-price">${p.price.toLocaleString()}₫</div>
+                <button class="add-cart" onclick="addToCart(${p.id})">Thêm giỏ</button>
+            </div>
+        `).join('');
+        
+        // Cart functions
+        function addToCart(id) {
+            const p = products.find(p=>p.id===id);
+            const item = cart.find(i=>i.id===id);
+            if (item) item.quantity++; 
+            else cart.push({...p, quantity:1});
+            updateCart();
+            alert('Đã thêm ' + p.name);
+        }
+        
+        function updateCart() {
+            document.getElementById('cart-count').textContent = cart.reduce((sum,i)=>sum+i.quantity,0);
+        }
+        
+        function checkout() {
+            alert('COD thành công! Tổng ' + cart.reduce((sum,i)=>sum+i.price*i.quantity,0).toLocaleString() + '₫');
+            cart = [];
+            updateCart();
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+        
+        // Modals
+        document.getElementById('cart-link').onclick = () => document.getElementById('cart-modal').style.display = 'block';
+        window.onclick = (e) => {
+            if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+        };
+        
+// CHATBOT - MANY REPLIES
+        function sendChat() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim().toLowerCase();
+            if (!text) return;
+            
+            const messages = document.getElementById('chat-messages');
+            messages.innerHTML += `<div class="message user-message">${input.value}</div>`;
+            input.value = '';
+            
+            setTimeout(() => {
+                let reply = '';
+                const lowerText = text;
+                
+                if (lowerText.includes('chào') || lowerText.includes('hi') || lowerText.includes('hello')) {
+                    reply = '👋 Chào bạn! ShopVN hỗ trợ 24/7. Hỏi giá sp hoặc giỏ hàng nhé!';
+                } else if (lowerText.includes('iphone') || lowerText.includes('điện thoại')) {
+                    reply = '📱 iPhone 15 Pro Max 256GB: <strong>25.900.000₫</strong><br>Titanium, A17 Pro, camera 48MP!';
+                } else if (lowerText.includes('macbook') || lowerText.includes('laptop')) {
+                    reply = '💻 MacBook Pro M3 Pro: <strong>48.900.000₫</strong><br>14" Liquid Retina, 18GB RAM!';
+                } else if (lowerText.includes('tai nghe') || lowerText.includes('airpods')) {
+                    reply = '🎧 AirPods Pro 2 USB-C: <strong>6.890.000₫</strong><br>ANC 2x, Spatial Audio!';
+                } else if (lowerText.includes('ps5') || lowerText.includes('game')) {
+                    reply = '🎮 PS5 Slim 1TB: <strong>14.990.000₫</strong><br>Ray tracing 4K 120fps!';
+                } else if (lowerText.includes('giỏ') || lowerText.includes('cart') || lowerText.includes('mua')) {
+                    reply = cart.length ? `🛒 Giỏ: ${cart.length} sp<br>Tổng: <strong>${cart.reduce((s,i)=>s+i.price*i.quantity,0).toLocaleString()}₫</strong>` : '🛒 Giỏ trống! Thêm sp trước nhé!';
+                } else if (lowerText.includes('giá') || lowerText.includes('price')) {
+                    reply = '💰 Giá HOT:<br>• iPhone: 25.9tr<br>• MacBook: 48.9tr<br>• PS5: 14.9tr<br>Hỏi tên sp cụ thể!';
+                } else if (lowerText.includes('giao') || lowerText.includes('ship')) {
+                    reply = '🚚 <strong>COD TOÀN QUỐC</strong><br>✅ Freeship nội thành<br>✅ 2-5 ngày tỉnh<br>✅ Đổi trả 7 ngày';
+                } else if (lowerText.includes('hỗ trợ') || lowerText.includes('help')) {
+                    reply = '🆘 Hỗ trợ:<br>• "iphone" giá iPhone<br>• "giỏ" xem giỏ<br>• "giao hàng" ship info';
+                } else {
+                    reply = '🤖 Hỏi thử: "iphone", "giá", "giỏ", "giao hàng", "chào" nhé! 😊';
+                }
+                
+                messages.innerHTML += `<div class="message bot-message">${reply}</div>`;
+                messages.scrollTop = messages.scrollHeight;
+            }, 300);
+        }
+        
+        function closeChat() {
+            document.getElementById('chat-modal').style.display = 'none';
+        }
+        
+        document.getElementById('chat-toggle').onclick = () => {
+            document.getElementById('chat-modal').style.display = 'block';
+            document.getElementById('chat-input').focus();
+        };
+        
+        updateCart();
+        console.log('✅ COMPLETE - All working!');
+    </script>
+</body>
+</html>
